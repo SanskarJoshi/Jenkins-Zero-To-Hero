@@ -32,7 +32,9 @@ pipeline {
       
       steps {
         script {
-            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build . -f ./Dockerfile -t ${repository}:${BUILD_NUMBER}  && docker push ${repository}:${BUILD_NUMBER}'           
+            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build . -f ./Dockerfile -t ${repository}:${BUILD_NUMBER}  && 
+                gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia-south1-docker.pkg.dev &&
+                docker push ${repository}:${BUILD_NUMBER}'           
         }
       }
     }
